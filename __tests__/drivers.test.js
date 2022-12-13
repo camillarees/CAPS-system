@@ -16,7 +16,7 @@ console.log = jest.fn();
 describe('Driver', () => {
   it('picks up and emits in transit as expected', () => {
     const payload = {
-      store: chance.company(),
+      store: '1-206-flowers',
       orderId: chance.guid(),
       customer: chance.name(),
       address: chance.address(),
@@ -28,7 +28,7 @@ describe('Driver', () => {
 
   it('delivers as expected', () => {
     const payload = {
-      store: chance.company(),
+      store: '1-206-flowers',
       orderId: chance.guid(),
       customer: chance.name(),
       address: chance.address(),

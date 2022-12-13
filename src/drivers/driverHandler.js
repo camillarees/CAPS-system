@@ -1,16 +1,14 @@
 'use strict';
 
-const eventPool = require('../../eventPool');
-
-
-function pickupInTransit(payload) {
+module.exports = (socket) => (payload) => {
+  socket.on('PICKUP', payload);
   console.log('Driver: picked up order', payload.orderId);
-  eventPool.emit('IN_TRANSIT', payload);
-}
+  socket.emit('IN_TRANSIT', payload);
 
-function deliveryHandler(payload) {
+};
+
+module.exports = (socket) => (payload) => {
   console.log('Driver: order delivered', payload.orderId);
-  eventPool.emit('DELIVERED', payload);
-}
+  socket.emit('DELIVERED', payload);
 
-module.exports = { pickupInTransit, deliveryHandler };
+};
