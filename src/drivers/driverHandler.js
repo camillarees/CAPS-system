@@ -2,19 +2,15 @@
 
 const eventPool = require('../../eventPool');
 
-module.exports = (payload) => {
 
-  setTimeout(() => {
-    console.log('DRIVER: picked up', payload.orderID);
-  }, 500);
-  let transitEvent = {
-    event: 'TRANSIT',
-    time: new Date(),
-    payload: payload,
-  };
-  setTimeout(() => {
-    eventPool.emit('TRANSIT', transitEvent);
-  }, 3000);
+function pickupInTransit(payload) {
+  console.log('Driver: picked up order', payload.orderId);
+  eventPool.emit('IN_TRANSIT', payload);
+}
 
+function deliveryHandler(payload) {
+  console.log('Driver: order delivered', payload.orderId);
+  eventPool.emit('DELIVERED', payload);
+}
 
-};
+module.exports = { pickupInTransit, deliveryHandler };

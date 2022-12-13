@@ -9,7 +9,7 @@ module.exports = (payload) => {
     time: new Date(),
     payload: payload,
   };
-  console.log(`DRIVER: delivered ${deliveredEvent.payload.orderID}`);
+  console.log(`DRIVER: delivered ${deliveredEvent.payload.orderId}`);
   setTimeout(() => {
     eventPool.emit('DELIVERED', deliveredEvent);
   }, 3000);

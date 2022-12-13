@@ -1,8 +1,7 @@
 'use strict';
 
 const eventPool = require('../eventPool');
-const driverHandler = require('./src/drivers/driverHandler');
-const driverDelivery = require('./src/drivers/driverDelivery');
+const { pickupInTransit, deliveryHandler } = require('./driverHandler');
 const Chance = require('chance');
 const chance = new Chance();
 
@@ -14,29 +13,29 @@ jest.mock('../eventPool.js', () => {
 });
 console.log = jest.fn();
 
-const orderEvent = {
-  event: 'ORDER',
-  time: new Date(Date.now()),
-  payload: {
-    store: chance.company(),
-    orderID: chance.guid(),
-    customer: chance.name(),
-    address: chance.address(),
-  },
-};
-
-describe('Driver Handler', () => {
-  it('picks up order', () => {
-    driverHandler(orderEvent);
-    expect(console.log).toHaveBeenCalledWith(`DRIVER: picked up ${orderEvent.payload.orderID}`);
-    expect(eventPool.emit).toHaveBeenCalled();
+describe('Driver', () => {
+  it('picks up and emits in transit as expected', () => {
+    const payload = {
+      store: chance.company(),
+      orderId: chance.guid(),
+      customer: chance.name(),
+      address: chance.address(),
+    };
+    pickupInTransit(payload);
+    expect(console.log).toHaveBeenCalledWith(`Driver: picked up order ${payload.orderId}`);
+    expect(eventPool.emit).toHaveBeenCalledWith('IN_TRANSIT', payload);
   });
-});
-describe('Driver Delivery', () => {
-  it('delivers order', () => {
-    driverDelivery(orderEvent);
-    expect(console.log).toHaveBeenCalledWith(`DRIVER: delivered ${orderEvent.payload.orderID}`);
-    expect(eventPool.emit).toHaveBeenCalled();
+
+  it('delivers as expected', () => {
+    const payload = {
+      store: chance.company(),
+      orderId: chance.guid(),
+      customer: chance.name(),
+      address: chance.address(),
+    };
+    deliveryHandler(payload);
+    expect(console.log).toHaveBeenCalledWith(`DRIVER: delivered ${payload.orderId}`);
+    expect(eventPool.emit).toHaveBeenCalled('DELIVERED', payload);
   });
 });
 
