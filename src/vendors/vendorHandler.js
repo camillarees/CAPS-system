@@ -1,20 +1,19 @@
 'use strict';
 
-const eventPool = require('../../eventPool');
 const Chance = require('chance');
 const chance = new Chance();
 
 
-function generateOrder(payload = null){
-  let payload =  payload ? payload : {
-    store: chance.company(),
+function generateOrder(socket){
+  let payload = {
+    store: '1-206-flowers',
     orderId: chance.guid(),
     customer: chance.name(),
     address: chance.address(),
   };
 
   console.log('Vendor: order ready for pickup');
-  eventPool.emit('PICKUP', payload);
+  socket.emit('PICKUP', payload);
 
 }
 
