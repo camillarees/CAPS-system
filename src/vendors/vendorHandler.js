@@ -1,18 +1,25 @@
 'use strict';
 
 const eventPool = require('../../eventPool');
+const Chance = require('chance');
+const chance = new Chance();
 
-module.exports = (payload) => {
-  setTimeout(() => {
-    console.log('new order for pickup', payload.orderID);
-  }, 3000);
-  const pickupEvent = {
-    event: 'picked up',
-    time: new Date(),
-    payload: payload,
+
+function generateOrder(payload = null){
+  let payload =  payload ? payload : {
+    store: chance.company(),
+    orderId: chance.guid(),
+    customer: chance.name(),
+    address: chance.address(),
   };
-  setTimeout(() => {
-    eventPool.emit('PICKUP', pickupEvent);
-  }, 3000);
 
-};
+  console.log('Vendor: order ready for pickup');
+  eventPool.emit('PICKUP', payload);
+
+}
+
+function thankDriver(payload){
+  console.log('Vendor: Thank you for delivering to', payload.customer);
+}
+
+module.exports = { generateOrder, thankDriver };

@@ -1,8 +1,7 @@
 'use strict';
 
+const { generateOrder, thankDriver } = require('./index');
 const eventPool = require('../eventPool');
-const vendorHandler = require('./src/vendors/vendorHandler');
-const vendorDelivery = require('./src/vendors/vendorDelivery');
 const Chance = require('chance');
 const chance = new Chance();
 
@@ -14,27 +13,22 @@ jest.mock('../eventPool.js', () => {
 });
 console.log = jest.fn();
 
-const orderEvent = {
-  event: 'ORDER',
-  time: new Date(Date.now()),
-  payload: {
-    store: chance.company(),
-    orderID: chance.guid(),
-    customer: chance.name(),
-    address: chance.address(),
-  },
-};
+describe('Vendor ', () => {
+  it('emits order as expected', () => {
+    const payload = {
+      store: chance.company(),
+      orderId: chance.guid(),
+      customer: chance.name(),
+      address: chance.address(),
+    };
+    generateOrder();
 
-describe('Vendor Handler', () => {
-  it('creates new order for delivery', () => {
-    vendorHandler(orderEvent);
-    expect(console.log).toHaveBeenCalledWith('new order for pickup', orderEvent.payload.orderID);
+    expect(console.log).toHaveBeenCalledWith('new order for pickup', generateOrder.payload.orderId);
+    expect(eventPool.emit).toHaveBeenCalledWith('PICKUP', payload);
   });
-}); 
 
-describe('Vendor Delivery', () => {
-  test('confirms delivery completion', () => {
-    vendorDelivery(orderEvent);
-    expect(console.log).toHaveBeenCalledWith(`Delivery ${event.payload.orderID} complete`);
+  it('thanks the driver', () => {
+    thankDriver();
+    expect(console.log).toHaveBeenCalledWith('Vendor: Thank you for delivering to: ', thankDriver.payload.customer);
   });
 }); 
