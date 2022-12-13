@@ -1,0 +1,22 @@
+{
+  "name": "caps-system",
+  "version": "1.0.0",
+  "description": "## Author: Camilla Rees ## Version: 1.0.0",
+  "main": "hub.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "npm hub.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camillarees/CAPS-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/camillarees/CAPS-system/issues"
+  },
+  "homepage": "https://github.com/camillarees/CAPS-system#readme"
+}
