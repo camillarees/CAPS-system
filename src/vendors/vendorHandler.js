@@ -2,17 +2,17 @@
 
 const eventPool = require('../../eventPool');
 
-function createParcel(payload){
-
+module.exports = (payload) => {
   setTimeout(() => {
-    const parcelPayload = {
-      store: 'store name',
-      orderID: 1234,
-      customer: 'buddy',
-      address: '222 Seattle',
-    };
-
+    console.log('new order for pickup', payload.orderID);
   }, 3000);
-}
+  const pickupEvent = {
+    event: 'picked up',
+    time: new Date(),
+    payload: payload,
+  };
+  setTimeout(() => {
+    eventPool.emit('PICKUP', pickupEvent);
+  }, 3000);
 
-module.exports = { createParcel };
+};
