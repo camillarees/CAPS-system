@@ -1,11 +1,11 @@
 'use strict';
 
-const eventPool = require('../eventPool');
 const { pickupInTransit, deliveryHandler } = require('./driverHandler');
 const Chance = require('chance');
 const chance = new Chance();
+let socket = require('../socket-client');
 
-jest.mock('../eventPool.js', () => {
+jest.mock('../socket-client', () => {
   return {
     on: jest.fn(),
     emit: jest.fn(),
@@ -23,7 +23,7 @@ describe('Driver', () => {
     };
     pickupInTransit(payload);
     expect(console.log).toHaveBeenCalledWith(`Driver: picked up order ${payload.orderId}`);
-    expect(eventPool.emit).toHaveBeenCalledWith('IN_TRANSIT', payload);
+    expect(socket.broadcast.emit).toHaveBeenCalledWith('IN_TRANSIT', payload);
   });
 
   it('delivers as expected', () => {
@@ -35,7 +35,7 @@ describe('Driver', () => {
     };
     deliveryHandler(payload);
     expect(console.log).toHaveBeenCalledWith(`DRIVER: delivered ${payload.orderId}`);
-    expect(eventPool.emit).toHaveBeenCalled('DELIVERED', payload);
+    expect(socket.broadcast.emit).toHaveBeenCalled('DELIVERED', payload);
   });
 });
 
