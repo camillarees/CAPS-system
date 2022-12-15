@@ -5,8 +5,7 @@
 
 ## Deployment and Documentation
 [Deployed Server on Render]()
-![Whiteboard](./assets/caps-whiteboard-2.png)
-![Whiteboard](./assets/lab-12-whiteboard.png)
+![Whiteboard](./assets/lab-13-whiteboard.png)
 
 ## Overview
 CAPS - The Code Academy Parcel Service, a system that emulates a real world supply chain. CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased.
@@ -34,5 +33,6 @@ Sequelize
 - [PR 4]()
 
 ## Credit and Collaborations
-- [401n49 Demo Code]()
+- [401n49 MessageClient Demo Code](https://github.com/codefellows/seattle-code-javascript-401d49/tree/main/class-13/demo-with-message-client)
+- [401n49 Socket Demo Code](https://github.com/codefellows/seattle-code-javascript-401d49/tree/main/class-12/live-demo/code-review)
 - Worked with [Elias Staehle](https://github.com/EDStaehle), [Kenny Lino](https://github.com/kennywlino), and [Seth Pierce](https://github.com/sethppierce)
